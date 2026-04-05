@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UmairStudio | Best YT Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a, #000000);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+        .studio-title {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+        .glass-box {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+        }
+        .btn-premium {
+            background: linear-gradient(45deg, #0ea5e9, #6366f1);
+            transition: all 0.4s ease;
+        }
+        .btn-premium:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+            transform: translateY(-2px);
+        }
+        #downloadWidget iframe {
+            border-radius: 15px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-4">
+
+    <!-- Logo / Heading -->
+    <div class="text-center mb-12">
+        <h1 class="studio-title text-5xl md:text-7xl font-bold text-white mb-2">
+            UMAIR<span class="text-sky-400">STUDIO</span>
+        </h1>
+        <div class="h-1 w-32 bg-sky-500 mx-auto rounded-full"></div>
+        <p class="text-gray-400 mt-4 tracking-widest uppercase text-xs">High Definition Video Solutions</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="glass-box p-8 w-full max-w-2xl shadow-2xl transition-all hover:border-sky-500/30">
+        <div class="flex flex-col gap-6">
+            <div>
+                <label class="block text-sky-400 text-xs font-bold mb-2 ml-1 uppercase">YouTube Video Link</label>
+                <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." 
+                    class="w-full p-4 rounded-2xl bg-black/40 border border-white/10 text-white focus:border-sky-500 outline-none transition-all placeholder:text-gray-600">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sky-400 text-xs font-bold mb-2 ml-1 uppercase">Format & Quality</label>
+                    <select id="format" class="w-full p-4 rounded-2xl bg-black/40 border border-white/10 text-white outline-none focus:border-sky-500 cursor-pointer">
+                        <optgroup label="Video - MP4" class="bg-slate-900">
+                            <option value="1080">1080p (Full HD)</option>
+                            <option value="720">720p (HD)</option>
+                            <option value="480">480p (SD)</option>
+                            <option value="360">360p</option>
+                            <option value="240">240p</option>
+                            <option value="144">144p</option>
+                        </optgroup>
+                        <optgroup label="Audio - MP3" class="bg-slate-900">
+                            <option value="mp3">MP3 (High Quality)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button onclick="generateLink()" class="btn-premium w-full h-[58px] rounded-2xl font-bold text-white uppercase tracking-wider">
+                        Generate Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Result Section -->
+        <div id="resultBox" class="mt-10 hidden border-t border-white/5 pt-8">
+            <div id="downloadWidget" class="flex flex-col items-center">
+                <p class="text-sm text-sky-300 mb-4 animate-pulse">Your download link is being prepared...</p>
+                <!-- API Widget -->
+                <div id="widgetContainer" class="w-full h-32 overflow-hidden flex justify-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl">
+        <div class="p-4"><p class="text-sky-400 font-bold">1080p Quality</p><p class="text-gray-500 text-xs">Full HD support for all videos</p></div>
+        <div class="p-4"><p class="text-sky-400 font-bold">No Ads</p><p class="text-gray-500 text-xs">Clean and professional interface</p></div>
+        <div class="p-4"><p class="text-sky-400 font-bold">Ultra Fast</p><p class="text-gray-500 text-xs">Direct server-side conversion</p></div>
+    </div>
+
+    <footer class="mt-20 text-gray-600 text-[10px] uppercase tracking-widest">
+        Developed by UmairStudio &copy; 2024
+    </footer>
+
+    <script>
+        function generateLink() {
+            const url = document.getElementById('videoUrl').value;
+            const format = document.getElementById('format').value;
+            const resultBox = document.getElementById('resultBox');
+            const widgetContainer = document.getElementById('widgetContainer');
+
+            if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
+                alert("Please enter a valid YouTube link.");
+                return;
+            }
+
+            // UI Show
+            resultBox.classList.remove('hidden');
+            widgetContainer.innerHTML = '<p class="text-gray-400">Loading API...</p>';
+
+            // Using a more stable API (yt-download.org widget)
+            // This API is specifically designed to be embedded in sites
+            const apiLink = `https://p.oceansaver.in/api/button/?url=${encodeURIComponent(url)}&f=${format}&color=0ea5e9`;
+
+            setTimeout(() => {
+                widgetContainer.innerHTML = `
+                    <iframe 
+                        src="${apiLink}"
+                        width="100%" 
+                        height="100px" 
+                        scrolling="no" 
+                        style="border:none; overflow:hidden;">
+                    </iframe>
+                `;
+            }, 500);
+        }
+    </script>
+</body>
+</html>
