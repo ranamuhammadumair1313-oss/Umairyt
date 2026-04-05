@@ -3,140 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UmairStudio | Best YT Downloader</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Umair Studio - AI Chat</title>
+    <!-- Google Fonts for Professional Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
+        /* CSS Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top right, #1e293b, #0f172a, #000000);
-            min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
         }
-        .studio-title {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 4px;
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        .glass-box {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-        }
-        .btn-premium {
-            background: linear-gradient(45deg, #0ea5e9, #6366f1);
-            transition: all 0.4s ease;
-        }
-        .btn-premium:hover {
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
-            transform: translateY(-2px);
-        }
-        #downloadWidget iframe {
+
+        .chat-container {
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            background: #171717;
             border-radius: 15px;
-            background: transparent;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            overflow: hidden;
         }
+
+        /* Header */
+        .chat-header {
+            padding: 20px;
+            background: #212121;
+            border-bottom: 1px solid #333;
+            text-align: center;
+        }
+
+        .chat-header h1 {
+            font-size: 1.5rem;
+            color: #10a37f; /* ChatGPT Green Color */
+            letter-spacing: 1px;
+        }
+
+        /* Chat Area */
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: #444 #171717;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #10a37f;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background-color: #2f2f2f;
+            color: #ececf1;
+            border-bottom-left-radius: 2px;
+        }
+
+        /* Typing Indicator */
+        .typing {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 20px;
+            background: #212121;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #333;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #2f2f2f;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #10a37f;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #10a37f;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0d8a6a;
+        }
+
+        /* Custom Scrollbar */
+        .chat-box::-webkit-scrollbar { width: 6px; }
+        .chat-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-4">
+<body>
 
-    <!-- Logo / Heading -->
-    <div class="text-center mb-12">
-        <h1 class="studio-title text-5xl md:text-7xl font-bold text-white mb-2">
-            UMAIR<span class="text-sky-400">STUDIO</span>
-        </h1>
-        <div class="h-1 w-32 bg-sky-500 mx-auto rounded-full"></div>
-        <p class="text-gray-400 mt-4 tracking-widest uppercase text-xs">High Definition Video Solutions</p>
-    </div>
-
-    <!-- Main Container -->
-    <div class="glass-box p-8 w-full max-w-2xl shadow-2xl transition-all hover:border-sky-500/30">
-        <div class="flex flex-col gap-6">
-            <div>
-                <label class="block text-sky-400 text-xs font-bold mb-2 ml-1 uppercase">YouTube Video Link</label>
-                <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." 
-                    class="w-full p-4 rounded-2xl bg-black/40 border border-white/10 text-white focus:border-sky-500 outline-none transition-all placeholder:text-gray-600">
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sky-400 text-xs font-bold mb-2 ml-1 uppercase">Format & Quality</label>
-                    <select id="format" class="w-full p-4 rounded-2xl bg-black/40 border border-white/10 text-white outline-none focus:border-sky-500 cursor-pointer">
-                        <optgroup label="Video - MP4" class="bg-slate-900">
-                            <option value="1080">1080p (Full HD)</option>
-                            <option value="720">720p (HD)</option>
-                            <option value="480">480p (SD)</option>
-                            <option value="360">360p</option>
-                            <option value="240">240p</option>
-                            <option value="144">144p</option>
-                        </optgroup>
-                        <optgroup label="Audio - MP3" class="bg-slate-900">
-                            <option value="mp3">MP3 (High Quality)</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <button onclick="generateLink()" class="btn-premium w-full h-[58px] rounded-2xl font-bold text-white uppercase tracking-wider">
-                        Generate Download
-                    </button>
-                </div>
-            </div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Umair Studio AI</h1>
         </div>
 
-        <!-- Download Result Section -->
-        <div id="resultBox" class="mt-10 hidden border-t border-white/5 pt-8">
-            <div id="downloadWidget" class="flex flex-col items-center">
-                <p class="text-sm text-sky-300 mb-4 animate-pulse">Your download link is being prepared...</p>
-                <!-- API Widget -->
-                <div id="widgetContainer" class="w-full h-32 overflow-hidden flex justify-center"></div>
-            </div>
+        <div class="chat-box" id="chatBox">
+            <div class="message ai-message">Assalam-o-Alaikum! Main Umair Studio AI hoon. Main aap ki kya madad kar sakta hoon?</div>
+        </div>
+
+        <div id="typingIndicator" class="typing" style="margin-left: 20px;">Umair Studio is thinking...</div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Yahan apna sawal likhen..." autocomplete="off">
+            <button onclick="sendMessage()">Send</button>
         </div>
     </div>
-
-    <!-- Instructions -->
-    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl">
-        <div class="p-4"><p class="text-sky-400 font-bold">1080p Quality</p><p class="text-gray-500 text-xs">Full HD support for all videos</p></div>
-        <div class="p-4"><p class="text-sky-400 font-bold">No Ads</p><p class="text-gray-500 text-xs">Clean and professional interface</p></div>
-        <div class="p-4"><p class="text-sky-400 font-bold">Ultra Fast</p><p class="text-gray-500 text-xs">Direct server-side conversion</p></div>
-    </div>
-
-    <footer class="mt-20 text-gray-600 text-[10px] uppercase tracking-widest">
-        Developed by UmairStudio &copy; 2024
-    </footer>
 
     <script>
-        function generateLink() {
-            const url = document.getElementById('videoUrl').value;
-            const format = document.getElementById('format').value;
-            const resultBox = document.getElementById('resultBox');
-            const widgetContainer = document.getElementById('widgetContainer');
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const typingIndicator = document.getElementById('typingIndicator');
 
-            if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
-                alert("Please enter a valid YouTube link.");
-                return;
-            }
+        function sendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === "") return;
 
-            // UI Show
-            resultBox.classList.remove('hidden');
-            widgetContainer.innerHTML = '<p class="text-gray-400">Loading API...</p>';
+            // 1. User Message Add Karen
+            addMessage(messageText, 'user-message');
+            userInput.value = "";
 
-            // Using a more stable API (yt-download.org widget)
-            // This API is specifically designed to be embedded in sites
-            const apiLink = `https://p.oceansaver.in/api/button/?url=${encodeURIComponent(url)}&f=${format}&color=0ea5e9`;
+            // 2. Typing Indicator Show Karen
+            typingIndicator.style.display = "block";
+            chatBox.scrollTop = chatBox.scrollHeight;
 
+            // 3. AI Response (Simulated)
             setTimeout(() => {
-                widgetContainer.innerHTML = `
-                    <iframe 
-                        src="${apiLink}"
-                        width="100%" 
-                        height="100px" 
-                        scrolling="no" 
-                        style="border:none; overflow:hidden;">
-                    </iframe>
-                `;
-            }, 500);
+                typingIndicator.style.display = "none";
+                const aiResponse = getAIResponse(messageText);
+                addMessage(aiResponse, 'ai-message');
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1500);
         }
+
+        function addMessage(text, className) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', className);
+            msgDiv.innerText = text;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Ye function sawal ke mutabiq jawab dega
+        function getAIResponse(input) {
+            const lowerInput = input.toLowerCase();
+            
+            if (lowerInput.includes("hello") || lowerInput.includes("hi") || lowerInput.includes("salam")) {
+                return "Walaikum Assalam! Umair Studio mein khush amdeed. Main aap ki kaise madad kar sakta hoon?";
+            } else if (lowerInput.includes("kaise ho") || lowerInput.includes("how are you")) {
+                return "Main bilkul theek hoon, shukriya! Aap sunayen, aap ka din kaisa guzar raha hai?";
+            } else if (lowerInput.includes("naam") || lowerInput.includes("name")) {
+                return "Mera naam Umair Studio AI hai.";
+            } else if (lowerInput.includes("kaam") || lowerInput.includes("work")) {
+                return "Main ek AI model hoon jo aapke sawalon ke jawab dene ke liye banaya gaya hoon.";
+            } else {
+                return "Zabardast sawal hai! Is bare mein mazeed maloomat ke liye main search kar sakta hoon. Kya aap mazeed detail bata sakte hain?";
+            }
+        }
+
+        // Enter key se message send karne ke liye
+        userInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
     </script>
 </body>
 </html>
